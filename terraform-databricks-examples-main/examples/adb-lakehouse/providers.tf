@@ -1,11 +1,19 @@
 terraform {
-
-  required_version = ">= 1.9.0"
-
+  # 1.14.0 released 2025-11-19
+  # 1.14.9 released 2026-04-20 (latest patch at time of writing)
+  required_version = "~> 1.14.0"
+  backend "remote" {
+    hostname     = "app.terraform.io"
+    organization = "evocs_analytics"
+    workspaces {
+      prefix = "datalake_terraform_deploy_lakehouse"
+    }
+  }
   required_providers {
     azurerm = {
-      source  = "hashicorp/azurerm"
-      version = ">=4.0.0"
+      source = "hashicorp/azurerm"
+      # released 2026-04-23
+      version = "~> 4.70.0"
     }
     databricks = {
       source  = "databricks/databricks"
@@ -14,10 +22,15 @@ terraform {
   }
 }
 
+# Configure the Microsoft Azure Resource Manager provider
+#
 provider "azurerm" {
-  subscription_id = var.subscription_id
+  tenant_id       = var.azure_tenant
+  subscription_id = var.azure_subscription
+  client_id       = var.azure_client_id
+  client_secret   = var.azure_client_secret
+  use_cli         = false
   features {}
-  resource_provider_registrations = "none"
 }
 
 provider "databricks" {
