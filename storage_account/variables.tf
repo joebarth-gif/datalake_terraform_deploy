@@ -1,3 +1,19 @@
+variable "azure_client_id" {
+  description = "The Azure client id"
+}
+variable "azure_client_secret" {
+  description = "The Azure client secret"
+}
+variable "azure_region" {
+  description = "The Azure region in which we will operate"
+}
+variable "azure_subscription" {
+  description = "The Azure subscription in which we will operate"
+}
+variable "azure_tenant" {
+  description = "The Azure tenant in which we will operate"
+}
+
 variable "resource_group_name" {
   type = string
 }
