@@ -1,7 +1,7 @@
 terraform {
   # 1.14.0 released 2025-11-19
   # 1.14.9 released 2026-04-20 (latest patch at time of writing)
-  required_version = "~> 1.14.0"
+  required_version = "~> 1.15.0"
   backend "remote" {
     hostname     = "app.terraform.io"
     organization = "evocs_analytics"
