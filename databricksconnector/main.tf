@@ -1,7 +1,17 @@
 data "azurerm_resource_group" "existing" {
   name = var.resource_group_name
 }
+resource "azurerm_databricks_access_connector" "this" {
+  name                = var.access_connector_name
+  resource_group_name = data.azurerm_resource_group.existing.name
+  location            = data.azurerm_resource_group.existing.location
 
+  identity {
+    type = "SystemAssigned"
+  }
+
+  tags = var.tags
+}
 resource "azurerm_storage_account" "this" {
   name                     = var.storage_account_name
   resource_group_name      = data.azurerm_resource_group.existing.name

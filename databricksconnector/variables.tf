@@ -1,3 +1,6 @@
+variable "access_connector_name" {
+  type = string
+}
 variable "azure_client_id" {
   description = "The Azure client id"
 }
