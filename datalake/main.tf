@@ -43,11 +43,18 @@ resource "azurerm_databricks_workspace" "this" {
   tags = var.tags
 }
 
+
 resource "databricks_metastore_assignment" "assignment" {
   provider = databricks.account
 
   workspace_id = azurerm_databricks_workspace.this.workspace_id
   metastore_id = var.metastore_id
+
+  default_catalog_name = "main"
+
+  depends_on = [
+    azurerm_databricks_workspace.this
+  ]
 }
 
 resource "azurerm_role_assignment" "uc_storage_access" {
@@ -55,6 +62,7 @@ resource "azurerm_role_assignment" "uc_storage_access" {
   role_definition_name = "Storage Blob Data Contributor"
   principal_id         = azurerm_databricks_access_connector.this.identity[0].principal_id
 }
+
 resource "databricks_storage_credential" "credential" {
   provider = databricks.workspace
 
@@ -63,7 +71,13 @@ resource "databricks_storage_credential" "credential" {
   azure_managed_identity {
     access_connector_id = azurerm_databricks_access_connector.this.id
   }
+
+  depends_on = [
+    azurerm_role_assignment.uc_storage_access,
+    databricks_metastore_assignment.assignment
+  ]
 }
+
 resource "databricks_external_location" "location" {
   provider = databricks.workspace
 
@@ -72,4 +86,8 @@ resource "databricks_external_location" "location" {
   url = "abfss://${azurerm_storage_container.container.name}@${azurerm_storage_account.storage.name}.dfs.core.windows.net/"
 
   credential_name = databricks_storage_credential.credential.name
+
+  depends_on = [
+    databricks_storage_credential.credential
+  ]
 }
