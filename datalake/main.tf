@@ -45,16 +45,6 @@ resource "azurerm_databricks_workspace" "this" {
   tags = var.tags
 }
 
-resource "databricks_external_location" "location" {
-  provider = databricks.workspace
-
-  name = "uc-location"
-
-  url = "abfss://${azurerm_storage_container.container.name}@${azurerm_storage_account.storage.name}.dfs.core.windows.net/"
-
-  credential_name = databricks_storage_credential.credential.name
-}
-
 resource "databricks_metastore_assignment" "assignment" {
   provider = databricks.account
 
@@ -75,4 +65,13 @@ resource "databricks_storage_credential" "credential" {
   azure_managed_identity {
     access_connector_id = azurerm_databricks_access_connector.this.id
   }
+}
+resource "databricks_external_location" "location" {
+  provider = databricks.workspace
+
+  name = "uc-location"
+
+  url = "abfss://${azurerm_storage_container.container.name}@${azurerm_storage_account.storage.name}.dfs.core.windows.net/"
+
+  credential_name = databricks_storage_credential.credential.name
 }
