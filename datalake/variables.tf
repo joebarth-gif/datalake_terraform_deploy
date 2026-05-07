@@ -36,3 +36,4 @@ variable "tags" {
 variable "workspace_name" {}
 variable "metastore_name" {}
 variable "account_id" {}
+variable "metastore_id" {}
