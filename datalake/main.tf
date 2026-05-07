@@ -45,16 +45,6 @@ resource "azurerm_databricks_workspace" "this" {
   tags = var.tags
 }
 
-resource "databricks_storage_credential" "credential" {
-  provider = databricks.workspace
-
-  name = "uc-credential"
-
-  azure_managed_identity {
-    access_connector_id = azurerm_databricks_access_connector.this.id
-  }
-}
-
 resource "databricks_external_location" "location" {
   provider = databricks.workspace
 
@@ -76,4 +66,13 @@ resource "azurerm_role_assignment" "uc_storage_access" {
   scope                = azurerm_storage_account.storage.id
   role_definition_name = "Storage Blob Data Contributor"
   principal_id         = azurerm_databricks_access_connector.this.identity[0].principal_id
+}
+resource "databricks_storage_credential" "credential" {
+  provider = databricks.workspace
+
+  name = "uc-credential"
+
+  azure_managed_identity {
+    access_connector_id = azurerm_databricks_access_connector.this.id
+  }
 }
