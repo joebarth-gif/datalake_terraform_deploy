@@ -1,7 +1,3 @@
-data "azurerm_resource_group" "existing" {
-  name = var.resource_group_name
-}
-
 data "azurerm_resource_group" "rg" {
   name = var.resource_group_name
 }
@@ -25,8 +21,8 @@ resource "azurerm_storage_container" "container" {
 }
 resource "azurerm_databricks_access_connector" "this" {
   name                = var.access_connector_name
-  resource_group_name = data.azurerm_resource_group.existing.name
-  location            = data.azurerm_resource_group.existing.location
+  resource_group_name = data.azurerm_resource_group.rg.name
+  location            = data.azurerm_resource_group.rg.location
 
   identity {
     type = "SystemAssigned"
@@ -37,8 +33,8 @@ resource "azurerm_databricks_access_connector" "this" {
 
 resource "azurerm_databricks_workspace" "this" {
   name                = var.databricks_workspace_name
-  resource_group_name = data.azurerm_resource_group.existing.name
-  location            = data.azurerm_resource_group.existing.location
+  resource_group_name = data.azurerm_resource_group.rg.name
+  location            = data.azurerm_resource_group.rg.location
 
   sku = "premium"   # required for Unity Catalog
 
