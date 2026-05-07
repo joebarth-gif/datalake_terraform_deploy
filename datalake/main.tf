@@ -15,7 +15,6 @@ resource "azurerm_storage_account" "storage" {
   account_kind             = "StorageV2"
 
   min_tls_version          = "TLS1_2"
-  allow_blob_public_access = false
 }
 resource "azurerm_storage_container" "container" {
   name                  = "unity-catalog"
@@ -77,7 +76,7 @@ resource "databricks_external_location" "location" {
 resource "databricks_metastore_assignment" "assignment" {
   provider = databricks.account
 
-  workspace_id = azurerm_databricks_workspace.workspace.workspace_id
+  workspace_id = azurerm_databricks_workspace.this.workspace_id
   metastore_id = databricks_metastore.metastore.id
 
   default_catalog_name = "main"
