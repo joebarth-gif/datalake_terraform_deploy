@@ -59,7 +59,7 @@ resource "databricks_storage_credential" "credential" {
   name = "uc-credential"
 
   azure_managed_identity {
-    access_connector_id = azurerm_databricks_access_connector.connector.id
+    access_connector_id = azurerm_databricks_access_connector.this.id
   }
 }
 
