@@ -15,6 +15,8 @@ resource "azurerm_storage_account" "storage" {
   account_kind             = "StorageV2"
 
   min_tls_version          = "TLS1_2"
+
+  is_hns_enabled = true
 }
 resource "azurerm_storage_container" "container" {
   name                  = "unity-catalog"
