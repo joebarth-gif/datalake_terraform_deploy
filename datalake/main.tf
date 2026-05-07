@@ -78,8 +78,6 @@ resource "databricks_metastore_assignment" "assignment" {
 
   workspace_id = azurerm_databricks_workspace.this.workspace_id
   metastore_id = databricks_metastore.metastore.id
-
-  default_catalog_name = "main"
 }
 
 resource "azurerm_role_assignment" "uc_storage_access" {
