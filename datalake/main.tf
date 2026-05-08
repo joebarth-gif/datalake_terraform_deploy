@@ -65,7 +65,7 @@ resource "azurerm_role_assignment" "uc_storage_access" {
 resource "databricks_storage_credential" "credential" {
   provider = databricks.workspace
 
-  name = "uc-credential"
+  name = "uc-credential-es"
 
   azure_managed_identity {
     access_connector_id = azurerm_databricks_access_connector.this.id
@@ -79,7 +79,7 @@ resource "databricks_storage_credential" "credential" {
 resource "databricks_external_location" "location" {
   provider = databricks.workspace
 
-  name = "uc-location"
+  name = "uc-location-es"
 
   url = "abfss://${azurerm_storage_container.container.name}@${azurerm_storage_account.storage.name}.dfs.core.windows.net/"
 
