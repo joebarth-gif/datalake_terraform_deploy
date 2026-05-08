@@ -62,20 +62,7 @@ resource "azurerm_role_assignment" "uc_storage_access" {
   role_definition_name = "Storage Blob Data Contributor"
   principal_id         = azurerm_databricks_access_connector.this.identity[0].principal_id
 }
-resource "databricks_storage_credential" "credential" {
-  provider = databricks.workspace
 
-  name = "uc-credential"
-
-  azure_managed_identity {
-    access_connector_id = azurerm_databricks_access_connector.this.id
-  }
-
-  depends_on = [
-    azurerm_role_assignment.uc_storage_access,
-    databricks_metastore_assignment.assignment
-  ]
-}
 resource "databricks_external_location" "location" {
   provider = databricks.workspace
 
