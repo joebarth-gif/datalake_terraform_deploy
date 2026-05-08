@@ -79,7 +79,7 @@ resource "databricks_storage_credential" "credential" {
 resource "databricks_external_location" "location" {
   provider = databricks.workspace
 
-  name = "uc-location-es"
+  name = "uc-location"
 
   url = "abfss://${azurerm_storage_container.container.name}@${azurerm_storage_account.storage.name}.dfs.core.windows.net/"
 
